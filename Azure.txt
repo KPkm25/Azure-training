@@ -1,0 +1,56 @@
+22-04-25
+
+Azure cred:
+
+azuser3120@mml.local
+tkS69jfpF
+
+Types of Scaling in Kubernetes
+
+-> Horizontal scaling/Horizontal Pod Autoscaler (HPA): This feature can effortlessly add or release pod replicas automatically.
+-> Vertical scaling/Vertical Pod Autoscaler (VPA): This feature in which CPU and memory reservations adjust automatically.
+-> Cluster Autoscaler: In this feature an analysis of resources occurs, and we make essential adjustments in the deployment and handle the load.(similar to horizontal scaling)
+
+PaaS - Any service that can be customizable for the user
+
+Non-functional requirements:
+
+Non-functional requirements in software engineering refer to the characteristics of a software system that are not related to specific functionality or behavior. They describe how the system should perform, rather than what it should do. 
+
+Examples of NFR:
+-> Availability, scalability, performance, agility, security, consistency, reliability, durability
+
+* Strategy is a long term plan while tactics are the short term plan to achieve a certain outcome
+
+SaaS:
+
+Characteristics:
+-> Web based access
+-> Centralised hosting
+-> Subscription based pricing
+
+Benefits:
+-> Lower upfront cost
+-> Reduced IT Overhead
+-> Faster implementation
+-> Automatic updates and maintenance
+-> Scalability and Flexibility
+-> Accessibility
+-> Predictable costs
+
+Cloud Deployment Models:
+
+-> Public: Shared resources
+
+-> Private
+
+-> Hybrid
+
+
+Connecting to the Azure VM
+-> Start the Cloud shell and upload the .pem file
+-> Check the .pem file permissions by running the command ls -ltr
+-> Change the file permission by running the cmd, "chmod 400 <pem file name>"
+-> Connect to the instance via ssh using the command, "ssh -i <pem filename> <username>@<publicIP>", example: ssh -i parakram-vm01_key.pem parakram@74.224.99.200
+
+
