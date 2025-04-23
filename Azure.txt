@@ -42,11 +42,11 @@ Benefits:
 
 Cloud Deployment Models:
 
--> Public: Shared resources
+-> Public: Shared resources, Minimal Investment,No setup cost,Infrastructure Management is not required,No maintenance, Dynamic Scalability,Less secure
 
--> Private
+-> Private: Better Control,Data Security and Privacy,Supports Legacy Systems,Customization,Less scalable,Costly
 
--> Hybrid
+-> Hybrid: Flexibility and control,Cost,Security,Difficult to manage,Slow data transmission
 
 VNET:
 A Virtual Network (VNET) in Azure is a private, isolated network environment where you can securely run your virtual machines, containers, databases, and services.
@@ -76,7 +76,10 @@ VPC/VNET peering (advantage and uses)->security, latency and cost
 
 
 Bastion Host:
+
 A Bastion Host is a highly secure virtual machine that acts as a gateway to access private resources (like VMs in a private subnet) without exposing them to the public internet.
+
+A bastion host is a dedicated server designed to withstand cyberattacks and provide secure access to a private network from an untrusted source, such as the Internet.
 
 It’s your "single door" into a secure network.
 
@@ -94,5 +97,41 @@ Connecting to the Azure VM
 -> Check the .pem file permissions by running the command ls -ltr
 -> Change the file permission by running the cmd, "chmod 400 <pem file name>"
 -> Connect to the instance via ssh using the command, "ssh -i <pem filename> <username>@<publicIP>", example: ssh -i parakram-vm01_key.pem parakram@74.224.99.200
+
+
+23-04-25
+
+VNETS are region scoped
+
+VM must be in a Subnet, which belongs to a VNET, which is in a Region, optionally inside an Availability Zone.
+
+
+Creating subnets
+
+n/w	1	2	4	8	16	32	64	128	256
+host    256	128	64	32	16	8	4	2	1
+subnet  /24	/25	/26	/27	/28	/29	/30	/31	/32
+
+Total range: 10.0.0.0/24 => 32-24=2^8=>10.0.0.0 - 10.0.0.256
+
+		IP range		Network ID		Broadcast IP		Range
+First range:    10.0.0.1-10.0.0.62	10.0.0.0		10.0.0.63		10.0.0.0/26
+
+2nd range:      10.0.0.65-10.0.0.126	10.0.0.64		10.0.0.127		10.0.0.64/26
+
+3rd range:      10.0.0.129-10.0.0.190	10.0.0.128		10.0.0.191		10.0.0.128/26
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
