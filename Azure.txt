@@ -1,5 +1,12 @@
 22-04-25
 
+Router: Forwards traffic between different networks.
+
+Gateway: Entry/exit point of a network (think of it as a router + firewall).
+
+Bridge: Connects two network segments and makes them act as one.
+
+
 Types of Scaling in Kubernetes
 
 -> Horizontal scaling/Horizontal Pod Autoscaler (HPA): This feature can effortlessly add or release pod replicas automatically.
@@ -41,6 +48,46 @@ Cloud Deployment Models:
 
 -> Hybrid
 
+VNET:
+A Virtual Network (VNET) in Azure is a private, isolated network environment where you can securely run your virtual machines, containers, databases, and services.
+It’s basically your own custom network inside the cloud, similar to a traditional on-premises network — but fully virtual.
+
+When you create a VNET, you must define an IP address space using CIDR notation (e.g., 10.0.0.0/16).
+
+This IP space is then divided into subnets (e.g., 10.0.1.0/24, 10.0.2.0/24).
+
+Resources like VMs and containers are assigned IPs from these subnets.
+VNETs in the same or different regions can be connected via VNET Peering.
+
+┌────────────┐
+│   VNET     │  ← Your cloud-based private network (e.g., 10.0.0.0/16)
+│            │
+│ ┌────────┐ │
+│ │Subnet1 │ ← E.g., 10.0.1.0/24 – Public subnet
+│ │  VM1   │
+│ └────────┘ │
+│ ┌────────┐ │
+│ │Subnet2 │ ← E.g., 10.0.2.0/24 – Private subnet
+│ │  VM2   │
+│ └────────┘ │
+└────────────┘
+
+VPC/VNET peering (advantage and uses)->security, latency and cost
+
+
+Bastion Host:
+A Bastion Host is a highly secure virtual machine that acts as a gateway to access private resources (like VMs in a private subnet) without exposing them to the public internet.
+
+It’s your "single door" into a secure network.
+
+Internet
+   ↓
+[Bastion Host] ← Public Subnet, has public IP
+   ↓
+[Private VM] ← Private Subnet, no public IP
+
+
+public/private subnets -> VNET -> availability zones -> subnets
 
 Connecting to the Azure VM
 -> Start the Cloud shell and upload the .pem file
