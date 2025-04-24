@@ -40,13 +40,7 @@ Benefits:
 -> Accessibility
 -> Predictable costs
 
-Cloud Deployment Models:
 
--> Public: Shared resources, Minimal Investment,No setup cost,Infrastructure Management is not required,No maintenance, Dynamic Scalability,Less secure
-
--> Private: Better Control,Data Security and Privacy,Supports Legacy Systems,Customization,Less scalable,Costly
-
--> Hybrid: Flexibility and control,Cost,Security,Difficult to manage,Slow data transmission
 
 VNET:
 A Virtual Network (VNET) in Azure is a private, isolated network environment where you can securely run your virtual machines, containers, databases, and services.
@@ -120,6 +114,98 @@ First range:    10.0.0.1-10.0.0.62	10.0.0.0		10.0.0.63		10.0.0.0/26
 2nd range:      10.0.0.65-10.0.0.126	10.0.0.64		10.0.0.127		10.0.0.64/26
 
 3rd range:      10.0.0.129-10.0.0.190	10.0.0.128		10.0.0.191		10.0.0.128/26
+
+---------------------------------------------------------------------------------------------------------------------------
+
+24-04-25
+
+Create New User in Azure
+-> Go to Microsoft Entra ID -> Manage -> Users
+-> Click on Create New User
+-> Add the username and set password
+-> In the role assignments, select Add Group and add AzureGroup(gives all necessary permissions to its members)
+-> Finalize and create the user
+-> When logging in for the first time, you will be prompted to reset the password.
+
+Granting access to users:
+-> Go to Subscription -> MML/create new subscription if not exist -> Access Control(IAM) -> Add -> Add Role Assignment
+-> New roles can be created or assigned to different users/groups
+
+Adjusting Quotas
+-> Go to Quotas -> Settings -> My Quotas
+-> Check the limit for your preferred resources(Regional vCPUs, availability sets, DSv3 Family vCPUs etc)
+-> We can adjust the quota according to our requirements.
+
+Cloud Deployment Models:
+
+-> Public: Shared resources, Minimal Investment,No setup cost,Infrastructure Management is not required, No maintenance, Dynamic Scalability
+Disadvantages: Less secure, security concerns, vendor lock-in, compliance, cost management
+Used for web hosting, Software development and deployment, SaaS applications.
+
+-> Private: Better Control,Data Security and Privacy,Supports Legacy Systems,Customization,Less scalable,Costly, 
+
+-> Hybrid: Flexibility and control,Cost,Security,Difficult to manage,Slow data transmission
+
+
+Azure Global Infrastructure:
+
+-> Availability Zones
+-> Data Centers
+-> Region Pairs
+-> Azure Global Network
+
+Characteristics and Benefits:
+-> Global reach
+-> High Availability and Resiliency
+-> Scalability and flexibility
+-> Security
+-> Compliance and Data residency
+-> Sustainability
+
+**Azure Edge Zone: An Azure Edge Zone is a local extension of Azure that brings compute, storage, and networking services closer to where data is generated or consumed — often in metro areas, at telecom operator facilities, or even on customer premises. It’s designed to support low-latency and high-throughput applications, like real-time analytics, gaming, IoT, and AR/VR. Running AR/VR experiences in real time, Hosting multiplayer game logic close to gamers, Processing video feeds on-site for a smart factory, Delivering AI results within milliseconds on local machines
+
+Key Benefits
+Low Latency: Closer proximity = faster response times (often <10ms).
+
+Data Sovereignty: Data can stay within local regions or even onsite.
+
+Scalability: Use Azure tools to scale workloads up or down.
+
+Consistency: Same APIs, tools, and management as global Azure.
+
+Cloud CDN:
+A Cloud CDN (Content Delivery Network) is a globally distributed network of servers that caches and delivers web content (like images, videos, CSS/JS files, or even APIs) closer to users to improve performance, reliability, and scalability. These edge servers store copies of static assets like images, videos, CSS, JavaScript files, or even full HTML pages.
+
+
+Hierarchy in Azure:
+Account -> subscription -> entra id -> tenant
+
+Assignment:
+VIII. Role-Based Access Control (RBAC) Labs:
+
+Assign Built-in Roles at Different Scopes:
+
+ Navigate to a Subscription, Resource Group, or a specific resource (e.g., a Storage Account).
+
+ Assign the "Reader" role to a test user at the Subscription level.
+
+ Verify the user can view resources in all Resource Groups within the Subscription but cannot make changes.
+
+ Assign the "Contributor" role to the same test user at a specific Resource Group level.
+
+ Verify the user can now create and manage resources within that specific Resource Group.
+
+ Assign the "Storage Blob Data Reader" role to the same test user on a specific Storage Account. Verify the user can only read data from blobs in that Storage Account.
+
+ Remove all role assignments for the test user.
+
+ Assign "Reader" role to a user at resource group level.
+
+ Verify the user is not getting access outside the resource group.
+
+
+
+
 
 
 
