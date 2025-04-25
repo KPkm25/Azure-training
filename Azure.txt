@@ -202,7 +202,96 @@ Assign Built-in Roles at Different Scopes:
  Assign "Reader" role to a user at resource group level.
 
  Verify the user is not getting access outside the resource group.
+---------------------------------------------------------------------------------
+25-04-25
 
+Azure Hierarchy
+
+Account -> Tenant(isolated, shared space in the Azure cloud. Can be multiple) -> Management groups(can be multiple, handles the subscriptions) ->Subscriptions(can be multiple, handles the payments) -> resource group (collection of resources for easier access and subscription) -> resources(each individual service in the cloud)
+
+Role is assigned to an identity, identity can contain users, groups and service principle(gives access to a certain service)
+
+User management  and permissions to manage users are different things and not resources, but both are done via EntraID.
+
+Active Directory(AD) services were integrated with Azure EntraID for IAM.
+
+ACID Properties:
+
+ACID properties in DBMS stand for Atomicity, Consistency, Isolation, and Durability, and they are fundamental to ensuring the reliable execution of database transactions. These properties guarantee that database transactions are processed accurately and predictably, even in the face of errors or system failures. 
+Here's a breakdown of each property:
+
+Atomicity:
+A transaction is treated as an indivisible unit of work. Either all operations within the transaction complete successfully, or none of them are applied, ensuring data integrity. 
+
+Consistency:
+Transactions maintain the database in a valid state. This means that the database rules and constraints are enforced, ensuring that the data remains accurate and reliable after the transaction. 
+
+Isolation:
+Transactions are isolated from each other, meaning that one transaction cannot interfere with or see the intermediate changes made by another transaction until it is committed. 
+
+Durability:
+Once a transaction is committed, its changes are permanently stored in the database and will persist even in the event of system failures. 
+
+Eventual consistency is a consistency model in distributed systems where, after a period of time with no new updates, all data replicas will eventually converge to the same value. This allows for temporary inconsistencies in data between replicas, enabling high availability and partition tolerance.
+Ex: WhatsApp demonstrates Eventual consistency while phone calls show immediate consistency.
+** Similar to asynchronous operations, we can do something else while the asynchronous/eventual consistency operation is taking place.
+
+
+CLI COMMANDS:
+# 🔐 Login and Subscription
+az login                                      # Sign in to your Azure account
+az account list                               # List all Azure subscriptions
+az account set --subscription <SUBSCRIPTION>  # Set the active subscription
+
+# ⚙️ Configuration
+az config set defaults.location="East US 2"   # Set default region
+az config set defaults.group="parakram_rg_eastus"  # Set default resource group
+az config get defaults                        # View default CLI settings
+az show config                                # Show full config details
+
+# 🗂️ Resource Group
+az group create --name <name> --location <location>  # Create a resource group
+az group list                                # List all resource groups
+az group delete --name <name>                # Delete a specific resource group
+
+# 📦 Storage Account
+az storage account list                      # List all storage accounts
+az storage account show --name <name> --resource-group <rg>  # Show details of a storage account
+
+# 🖥️ Virtual Machines
+az vm list                                   # List all virtual machines
+az vm list --query "[].name" --output tsv    # List only VM names
+az vm list-skus --location <location>        # List VM sizes available in a region
+az vm delete --name <vm> --resource-group <rg>  # Delete a VM
+
+
+
+POWERSHELL COMMANDS:
+# 🔐 Login and Subscription
+Connect-AzAccount                                       # Sign in to Azure
+Connect-AzAccount -UseDeviceAuthentication              # Device-based login method
+Get-AzSubscription                                       # List all Azure subscriptions
+Set-AzContext -Subscription <SUBSCRIPTION>              # Set active subscription
+Get-AzAccount                                            # View signed-in account
+Get-AzContext                                            # View current subscription and defaults
+
+# 🗂️ Resource Group
+Get-AzResourceGroup                                     # List all resource groups
+Get-AzResourceGroup -Location eastus2                   # Filter by location
+Get-AzResourceGroup -Name parakram_rg_eastus            # Get details of a specific group
+Remove-AzResourceGroup -Name <name>                     # Delete a resource group
+
+# 📦 Storage Account
+Get-AzStorageAccount                                    # List all storage accounts
+Get-AzStorageAccount -Name <name> -ResourceGroupName <rg>  # Show storage account details
+
+# 🖥️ Virtual Machines
+Get-AzVM                                                # List all virtual machines
+Get-AzVM -Name <vm-name>                                # Get details of a specific VM
+Remove-AzVM -ResourceGroupName <rg> -Name <vm-name>     # Delete a VM
+New-AzVM -Name <name>                                   # Create a new VM (with default config)
+Set-AzVM -ResourceGroupName <rg> -Name <vm>             # Modify VM config
+Set-AzVM -ResourceGroupName <rg> -Name <vm> -Generalized  # Mark VM as generalized
 
 
 
