@@ -293,6 +293,26 @@ New-AzVM -Name <name>                                   # Create a new VM (with 
 Set-AzVM -ResourceGroupName <rg> -Name <vm>             # Modify VM config
 Set-AzVM -ResourceGroupName <rg> -Name <vm> -Generalized  # Mark VM as generalized
 
+------------------------------------------
+Managed identities!
+What is a Runbook
+
+
+Azure Functions:
+->Serverless compute service that lets you run event-triggered code without having to explicitly specify the infrastructure.
+->Allows to run small pieces of code(functions) without worrying about application infrastructure
+Features:
+->serverless application
+->choice of language
+->pay per use pricing model
+->bring your own dependencies
+->integrated security
+->simplified integration
+->flexible development
+
+Uses:
+->Processing bulk data, integrating systems, working with IoT and building simple API's and microservices.
+->
 
 
 
