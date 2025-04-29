@@ -312,9 +312,31 @@ Features:
 
 Uses:
 ->Processing bulk data, integrating systems, working with IoT and building simple API's and microservices.
-->
 
+--------------------
 
+28-04-25
+
+Infrastructure as Code(IAC):
+In simple words, it means managing and setting up your IT infrastructure (like servers, networks, databases, etc.) using code instead of doing it manually.
+
+Why people love IaC:
+->Speed (build infrastructure fast)
+->Consistency (no "it works on my machine" problems)
+->Version control (infrastructure changes are tracked in Git)
+->Automation (less human error)
+->Reusable code
+
+3 forms of IAC:
+-> Infrastructure Provisioning(Azure ARM templates, Azure BICEP, Terraform, AWS Boto, Cloud Formation)
+-> Config mgmt. tool(Ansible, Puppet, Chef=>check differences!!)
+-> Server Templating(Vagrant and Docker)
+
+HCL=> Hashicorp Configuration Language
+
+terraform plan and apply
+tfstate file: contains info about what was done last time
+.tf file: contains instructions about what has to be done
 
 
 

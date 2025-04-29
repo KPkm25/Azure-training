@@ -353,10 +353,80 @@ In simple words, it means managing and setting up your IT infrastructure (like s
 -  Config mgmt. tool(Ansible, Puppet, Chef= check differences!!)
 -  Server Templating(Vagrant and Docker)
 
+## Creating a VM and accessing it
+```
+user16 [ ~ ]$ az vm create \
+ --resource-group parakram_rg \
+ --name parakramVM \
+ --image Ubuntu2204 \
+ --size Standard_B1s \
+ --admin-username parakram \
+ --generate-ssh-keys \
+ --vnet-name kpkm_vnet \
+ --subnet kpkm_subnet \
+ --location centralindia
+
+ SSH into it:
+ ssh parakram@4.240.54.242
+
+```
+
+## Installing Terraform
+```
+sudo su
+
+sudo apt update
+
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+apt-cache policy azure-cli
+
+az login
+
+terraform -help
+
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+
+wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+
+sudo wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+
+sudo gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+sudo apt update
+
+sudo apt-get install terraform
+
+terraform -help
+
+terraform -version
 
 
+```
 
 
+## Creating a VNET in the VM
+```
+az vm create  --resource-group parakram_rg  --name parakramVM  --image Ubuntu2204  --size Standard_B1s  --admin-username parakram  --generate-ssh-keys  --vnet-name kpkm_vnet  --subnet kpkm_subnet  --location centralindia
+```
+
+## Terraform basics(commands and files)
+
+| Command / File | One-Line Definition |
+|:---|:---|
+| `terraform init` | Initializes the Terraform project by downloading necessary provider plugins. |
+| `terraform plan` | Creates an execution plan showing what Terraform will do without making changes. |
+| `terraform apply` | Applies the planned changes and provisions or updates the infrastructure. |
+| `ls -a` | Lists all files and directories, including hidden ones (those starting with `.`). |
+| `cat terraform.tfstate` | Displays the Terraform state file, which tracks the real infrastructure and resource IDs. |
+| `terraform destroy` | Destroys all infrastructure managed by Terraform (teardown everything). |
+| `ls` | Lists files and directories in the current folder. |
+| `cat main.tf` | Displays the contents of `main.tf`, your main Terraform configuration file. |
+| `terraform fmt` | Formats Terraform configuration files (`.tf`) to make them clean and standardized. |
+| `tarraform validate` (typo) | ❌ (Incorrect spelling: should be `terraform validate`) |
+| `terraform validate` | Validates whether your Terraform configuration files are syntactically correct. |
 
 
 
