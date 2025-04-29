@@ -3,7 +3,9 @@
 ## Types of Scaling in Kubernetes
 
 **-  Horizontal scaling/Horizontal Pod Autoscaler (HPA):** This feature can effortlessly add or release pod replicas automatically.
+
 **-  Vertical scaling/Vertical Pod Autoscaler (VPA):** This feature in which CPU and memory reservations adjust automatically.
+
 **-  Cluster Autoscaler:** In this feature an analysis of resources occurs, and we make essential adjustments in the deployment and handle the load.(similar to horizontal scaling)
 
 ---
@@ -85,13 +87,13 @@ Internet
 
 ```
 
-public/private subnets -  VNET -  availability zones -  subnets
+public/private subnets ->  VNET ->  availability zones ->  subnets
 
 Connecting to the Azure VM
 -  Start the Cloud shell and upload the .pem file
 -  Check the .pem file permissions by running the command ls -ltr
--  Change the file permission by running the cmd, `chmod 400 <pem file name `
--  Connect to the instance via ssh using the command, `ssh -i <pem filename  <username @<publicIP `
+-  Change the file permission by running the cmd, `chmod 400 <pem file name> `
+-  Connect to the instance via ssh using the command, `ssh -i <pem filename>  <username> @<publicIP> `
  example: `ssh -i parakram-vm01_key.pem parakram@74.224.99.200`
 
 ---
@@ -105,22 +107,21 @@ Connecting to the Azure VM
 
 **Creating subnets**
 
-```
 
-n/w	1	2	4	8	16	32	64	128	256
-host    256	128	64	32	16	8	4	2	1
-subnet  /24	/25	/26	/27	/28	/29	/30	/31	/32
+| n/w |	1 |	2 |	4 |	8 |	16 |	32 |	64 |	128 |	256 |
+| host |   256 |	128 |	64 |	32 |	16 |	8 |	4 |	2 |	1 |
+| subnet |  /24 |	/25 |	/26 |	/27 |	/28 |	/29 |	/30 |	/31 |	/32 |
 
-Total range: 10.0.0.0/24 =  32-24=2^8= 10.0.0.0 - 10.0.0.256
+`Total range: 10.0.0.0/24 =>  32-24=> 2^8=> 10.0.0.0 - 10.0.0.256`
 
-		IP range		Network ID		Broadcast IP		Range
-First range:    10.0.0.1-10.0.0.62	10.0.0.0		10.0.0.63		10.0.0.0/26
+| IP range |		Network ID |		Broadcast IP|		Range |
+|:---|:---|
+| First range: |    10.0.0.1-10.0.0.62 |	10.0.0.0 |		10.0.0.63 |		10.0.0.0/26 |
 
-2nd range:      10.0.0.65-10.0.0.126	10.0.0.64		10.0.0.127		10.0.0.64/26
+| 2nd range: |      10.0.0.65-10.0.0.126 |	10.0.0.64 |		10.0.0.127 |		10.0.0.64/26 |
 
-3rd range:      10.0.0.129-10.0.0.190	10.0.0.128		10.0.0.191		10.0.0.128/26
+| 3rd range: |      10.0.0.129-10.0.0.190	10.0.0.128 |		10.0.0.191 |		10.0.0.128/26 |
 
-```
 ---
 
 **24-04-25**
@@ -134,11 +135,11 @@ First range:    10.0.0.1-10.0.0.62	10.0.0.0		10.0.0.63		10.0.0.0/26
 -  When logging in for the first time, you will be prompted to reset the password.
 
 ## Granting access to users:
--  Go to Subscription -  MML/create new subscription if not exist -  Access Control(IAM) -  Add -  Add Role Assignment
+-  Go to Subscription ->  MML/create new subscription if not exist ->  Access Control(IAM) ->  Add ->  Add Role Assignment
 -  New roles can be created or assigned to different users/groups
 
 ## Adjusting Quotas
--  Go to Quotas -  Settings -  My Quotas
+-  Go to Quotas ->  Settings ->  My Quotas
 -  Check the limit for your preferred resources(Regional vCPUs, availability sets, DSv3 Family vCPUs etc)
 -  We can adjust the quota according to our requirements.
 
@@ -186,7 +187,7 @@ A Cloud CDN (Content Delivery Network) is a globally distributed network of serv
 
 Hierarchy in Azure:
 
-`Account -  subscription -  entra id -  tenant`
+`Account ->  subscription ->  entra id ->  tenant`
 
 **Assignment:**
 VIII. Role-Based Access Control (RBAC) Labs:
@@ -219,7 +220,7 @@ Assign Built-in Roles at Different Scopes:
 
 ```
 
-Account -  Tenant(isolated, shared space in the Azure cloud. Can be multiple) -  Management groups(can be multiple, handles the subscriptions) - Subscriptions(can be multiple, handles the payments) -  resource group (collection of resources for easier access and subscription) -  resources(each individual service in the cloud)
+Account ->  Tenant(isolated, shared space in the Azure cloud. Can be multiple) ->  Management groups(can be multiple, handles the subscriptions) -> Subscriptions(can be multiple, handles the payments) ->  resource group (collection of resources for easier access and subscription) ->  resources(each individual service in the cloud)
 
 ```
 
@@ -256,30 +257,30 @@ Once a transaction is committed, its changes are permanently stored in the datab
 ```
 
  🔐 Login and Subscription
-az login =  Sign in to your Azure account
-az account list =  List all Azure subscriptions
-az account set --subscription <SUBSCRIPTION  = Set the active subscription
+az login =>  Sign in to your Azure account
+az account list =>  List all Azure subscriptions
+az account set --subscription <SUBSCRIPTION>  => Set the active subscription
 
  ⚙️ Configuration
-az config set defaults.location="East US 2"  =  Set default region
-az config set defaults.group="parakram_rg_eastus"  = Set default resource group
-az config get defaults =  View default CLI settings
-az show config =  Show full config details
+az config set defaults.location="East US 2"  =>  Set default region
+az config set defaults.group="parakram_rg_eastus"  => Set default resource group
+az config get defaults =>  View default CLI settings
+az show config =>  Show full config details
 
  🗂️ Resource Group
-az group create --name <name  --location <location  =  Create a resource group
-az group list =  # List all resource groups
-az group delete --name <name  =  Delete a specific resource group
+az group create --name <name>  --location <location>  =>  Create a resource group
+az group list =>   List all resource groups
+az group delete --name <name>  =>  Delete a specific resource group
 
  📦 Storage Account
-az storage account list =  List all storage accounts
-az storage account show --name <name  --resource-group <rg  =  Show details of a storage account
+az storage account list =>  List all storage accounts
+az storage account show --name <name>  --resource-group <rg>  =>  Show details of a storage account
 
  🖥️ Virtual Machines
-az vm list =  List all virtual machines
-az vm list --query "[].name" --output tsv =  List only VM names
-az vm list-skus --location <location  =  List VM sizes available in a region
-az vm delete --name <vm  --resource-group <rg  =  Delete a VM
+az vm list =>  List all virtual machines
+az vm list --query "[].name" --output tsv =>  List only VM names
+az vm list-skus --location <location>  =>  List VM sizes available in a region
+az vm delete --name <vm>  --resource-group <rg>  =>  Delete a VM
 
 ```
 
@@ -287,30 +288,30 @@ az vm delete --name <vm  --resource-group <rg  =  Delete a VM
 ```
 
  🔐 Login and Subscription
-Connect-AzAccount =  Sign in to Azure
-Connect-AzAccount -UseDeviceAuthentication =  Device-based login method
-Get-AzSubscription =  List all Azure subscriptions
-Set-AzContext -Subscription <SUBSCRIPTION  =  Set active subscription
-Get-AzAccount =  View signed-in account
-Get-AzContext =  View current subscription and defaults
+Connect-AzAccount =>  Sign in to Azure
+Connect-AzAccount -UseDeviceAuthentication =>  Device-based login method
+Get-AzSubscription =>  List all Azure subscriptions
+Set-AzContext -Subscription <SUBSCRIPTION>  =>  Set active subscription
+Get-AzAccount =>  View signed-in account
+Get-AzContext =>  View current subscription and defaults
 
  🗂️ Resource Group
-Get-AzResourceGroup =  List all resource groups
-Get-AzResourceGroup -Location eastus2 =  Filter by location
-Get-AzResourceGroup -Name parakram_rg_eastus =  Get details of a specific group
-Remove-AzResourceGroup -Name <name  =  Delete a resource group
+Get-AzResourceGroup =>  List all resource groups
+Get-AzResourceGroup -Location eastus2 =>  Filter by location
+Get-AzResourceGroup -Name parakram_rg_eastus =>  Get details of a specific group
+Remove-AzResourceGroup -Name <name>  =>  Delete a resource group
 
  📦 Storage Account
-Get-AzStorageAccount =  List all storage accounts
-Get-AzStorageAccount -Name <name  -ResourceGroupName <rg  =  Show storage account details
+Get-AzStorageAccount =>  List all storage accounts
+Get-AzStorageAccount -Name <name>  -ResourceGroupName <rg>  =>  Show storage account details
 
  🖥️ Virtual Machines
-Get-AzVM =  List all virtual machines
-Get-AzVM -Name <vm-name  =  Get details of a specific VM
-Remove-AzVM -ResourceGroupName <rg  -Name <vm-name  =  Delete a VM
-New-AzVM -Name <name  =  Create a new VM (with default config)
-Set-AzVM -ResourceGroupName <rg  -Name <vm  =  Modify VM config
-Set-AzVM -ResourceGroupName <rg  -Name <vm  -Generalized =  Mark VM as generalized
+Get-AzVM =>  List all virtual machines
+Get-AzVM -Name <vm-name>  =>  Get details of a specific VM
+Remove-AzVM -ResourceGroupName <rg>  -Name <vm-name>  =>  Delete a VM
+New-AzVM -Name <name>  =>  Create a new VM (with default config)
+Set-AzVM -ResourceGroupName <rg>  -Name <vm>  =>  Modify VM config
+Set-AzVM -ResourceGroupName <rg>  -Name <vm>  -Generalized =>  Mark VM as generalized
 
 ```
 ---
@@ -406,12 +407,6 @@ terraform -version
 
 ```
 
-
-## Creating a VNET in the VM
-```
-az vm create  --resource-group parakram_rg  --name parakramVM  --image Ubuntu2204  --size Standard_B1s  --admin-username parakram  --generate-ssh-keys  --vnet-name kpkm_vnet  --subnet kpkm_subnet  --location centralindia
-```
-
 ## Terraform basics(commands and files)
 
 | Command / File | One-Line Definition |
@@ -419,16 +414,15 @@ az vm create  --resource-group parakram_rg  --name parakramVM  --image Ubuntu220
 | `terraform init` | Initializes the Terraform project by downloading necessary provider plugins. |
 | `terraform plan` | Creates an execution plan showing what Terraform will do without making changes. |
 | `terraform apply` | Applies the planned changes and provisions or updates the infrastructure. |
-| `ls -a` | Lists all files and directories, including hidden ones (those starting with `.`). |
 | `cat terraform.tfstate` | Displays the Terraform state file, which tracks the real infrastructure and resource IDs. |
 | `terraform destroy` | Destroys all infrastructure managed by Terraform (teardown everything). |
-| `ls` | Lists files and directories in the current folder. |
 | `cat main.tf` | Displays the contents of `main.tf`, your main Terraform configuration file. |
 | `terraform fmt` | Formats Terraform configuration files (`.tf`) to make them clean and standardized. |
-| `tarraform validate` (typo) | ❌ (Incorrect spelling: should be `terraform validate`) |
 | `terraform validate` | Validates whether your Terraform configuration files are syntactically correct. |
 
+---
 
+29-04-25
 
 
 
