@@ -640,3 +640,80 @@ resource "azurerm_virtual_network" "example"{
  
 }
 ```
+---
+
+## Code blocks in Terraform
+
+- `provider` block: Declares the cloud provider (Azure in this case) and configures its settings.
+- `terraform`block: Configures Terraform-specific settings. Declares required provider versions and their sources.
+- `data` block: Defines a data source to fetch existing infrastructure information (like an existing Azure resource group). Used for read-only lookup.
+- `output` blocks: Used to display values after Terraform runs (e.g., resource IDs, names). Helpful for debugging or passing values to other modules.
+- `resource` block: Defines new infrastructure to be created and managed by Terraform (an Azure virtual network here).
+
+**depends_on**
+The depends_on meta-argument instructs Terraform to complete all actions on the dependency object (including Read actions) before performing actions on the object declaring the dependency.
+You can use the depends_on meta-argument in module blocks and in all resource blocks, regardless of resource type. It requires a list of references to other resources or child modules in the same calling module.
+
+```
+resource "azurerm_linux_virtual_machine" "example2" {
+
+ name = "parakram-tf-vm2"
+
+ resource_group_name = azurerm_resource_group.example.name
+
+ location = azurerm_resource_group.example.location
+
+ size = "Standard_B1s"
+
+ admin_username = "parakram"
+
+ # OS disk block
+
+ os_disk {
+
+  name = "parakram-tf-os-disk2"
+
+  caching = "ReadWrite"
+
+  storage_account_type = "Standard_LRS"
+
+  disk_size_gb = 30
+
+ }
+
+ admin_ssh_key {
+
+  username = "parakram"
+
+  public_key = file("~/.ssh/id_rsa.pub") # You can generate a new SSH key if you want
+
+ }
+
+ # Specify the image using source_image_reference
+
+ source_image_reference {
+
+  publisher = "Canonical"
+
+  offer = "0001-com-ubuntu-server-jammy"
+
+  sku = "22_04-lts"
+
+  version = "latest"
+
+ }
+
+ network_interface_ids = [azurerm_network_interface.example2.id]
+ depends_on=[azurerm_linux_virtual_machine.example1]
+
+ tags = {
+
+  environment = "backend2"
+
+ }
+
+}
+```
+
+
+
