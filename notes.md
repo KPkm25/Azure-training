@@ -423,13 +423,220 @@ terraform -version
 
 ---
 
-29-04-25
+**30-04-25**
 
+## Terraform
+Terraform is an open-source Infrastructure-as-Code (IaC) tool created by HashiCorp. It allows users to define and provision infrastructure using a declarative configuration language, typically HashiCorp Configuration Language (HCL) or JSON. Terraform enables the management of infrastructure across various platforms, including public clouds, private clouds, and SaaS services, through the use of providers, which are plugins that enable Terraform to interact with specific platforms or services. 
+Here's a more detailed explanation:
 
+## Key Features and Concepts:
+**Infrastructure as Code:**
+Terraform treats infrastructure as code, meaning that it defines the desired state of infrastructure resources in configuration files. This allows for version control, collaboration, and automation of infrastructure provisioning and management. 
+**Declarative Language:**
+Terraform uses a declarative language, meaning that users describe the desired end state of their infrastructure, and Terraform automatically manages the process of achieving that state. This contrasts with procedural languages where users must explicitly define the steps required to create and manage infrastructure. 
+**Providers:**
+Terraform uses providers to interact with specific infrastructure platforms or services. These providers enable Terraform to create, update, and delete resources within those platforms. 
+**Workflows:**
+Terraform follows a consistent workflow for managing infrastructure: 
+- Writing Code: Users define their infrastructure in configuration files. 
+- Planning: Terraform analyzes the configuration and creates an execution plan, showing how the infrastructure will be updated. 
+- Applying: Terraform executes the plan, provisioning or modifying the infrastructure as needed. 
+- Destroying: Terraform can also destroy existing infrastructure resources. 
+**Modules:**
+Terraform modules allow users to package and reuse infrastructure configurations, promoting reusability and maintainability. 
+**State Management:**
+Terraform maintains a state file that tracks the current state of the infrastructure resources. This state file is used to determine what changes are needed to achieve the desired state. 
 
+**Adv. of Terraform**
+-	Does orchestration, not just configuration management
+-	Supports multiple providers such as AWS, Azure, GCP, DigitalOcean and many more
+-	Provide immutable infrastructure where configuration changes smoothly
+-	Uses easy to understand language, HCL (HashiCorp configuration language)
+-	Easily portable to any other provider
+-	Supports Client only architecture, so no need for additional configuration management on a server
 
+## CI/CD for terraform
+- CI (Continuous Integration): Automatically test and validate Terraform code (e.g., terraform validate, terraform fmt, terraform plan) whenever changes are made—typically via pull requests.
 
+- CD (Continuous Deployment/Delivery): Automatically apply the approved Terraform changes (e.g., terraform apply) to target environments like staging or production, often with safeguards like manual approval steps.
 
+**Advantages**
+- Automated Validation and Testing
+- Consistency and Repeatability
+- Safer Infrastructure Changes
+- Better Security and Compliance
+- Faster Feedback Loop
+- Reduced Downtime and Human Intervention
+- Scalability and Collaboration
 
+## Policy as a Code
+Policy as Code (PaC) is the practice of writing and enforcing infrastructure and security policies using machine-readable code, rather than manual processes or documentation. It ensures that rules, compliance requirements, and governance controls are automatically applied to infrastructure and applications during deployment.
 
+### Why Policy as Code?
+✅ Automated Compliance: Prevents misconfigurations before they reach production.
 
+🧪 Prevention > Detection: Enforce policies during CI/CD (e.g., block insecure Terraform code).
+
+🔁 Version Control: Policies live in Git like the rest of the codebase.
+
+🔐 Security & Governance: Automatically enforce least privilege, encryption, tagging, etc.
+
+---
+### Required_Providers
+In Terraform, the required_providers block specifies which providers your configuration depends on and their minimum required versions. This block lives inside the terraform block at the top of your configuration file (usually main.tf or provider.tf).
+
+**📦 Purpose of required_providers**
+- Declares dependencies on external providers (like AWS, Azure, Google Cloud, etc.).
+- Ensures consistent and controlled versions of providers across environments.
+- Enables Terraform to automatically download the correct version from the Terraform Registry or other sources.
+
+```
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0" // ~> means update till the latest patch/minor version, from 5.0.0 till < 6.0
+    }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.0"
+    }
+  }
+
+  required_version = ">= 1.4.0"
+}
+
+```
+### Release Versioning
+| Component | Example | Purpose |
+|----------|---------|---------|
+| **MAJOR** | `2.x.x` | Introduces **breaking changes**; incompatible with previous versions. |
+| **MINOR** | `1.3.x` | Adds **new features** without breaking backward compatibility. |
+| **PATCH** | `1.2.5` | Includes **bug fixes** or small improvements; fully backward compatible. |
+
+***Hot fixes: Changes made in 24 hours or less after release***
+
+## Terraform State
+Terraform state is a file that tracks the current state of your infrastructure as Terraform understands it. It acts as the single source of truth for Terraform to know what resources it has created, updated, or deleted.
+
+**📦 Key Purposes of Terraform State**
+- Mapping: Matches Terraform configuration to real-world infrastructure.
+- Tracking Metadata: Stores resource IDs, dependencies, and values.
+- Performance: Speeds up operations by caching resource information.
+- Change Detection: Enables terraform plan to detect what’s changing.
+
+### terraform.tfstate
+When multiple people work on the same Terraform project, the terraform.tfstate file plays a critical role — and it must be carefully managed to avoid conflicts, data loss, or infrastructure drift.
+Terraform maintains a snapshot of infrastructure in terraform.tfstate. Every time someone runs:
+
+- `terraform plan`: it compares the current state file to your configuration.
+- `terraform apply`: it updates real infrastructure and the state file.
+
+If two people use the same code but different versions of the state file, they can overwrite or undo each other's changes, leading to serious issues.
+
+**❌ Problems with Local State in Team Environments**
+- Race conditions: Two users run apply at the same time → state gets corrupted.
+- No locking: No mechanism to prevent concurrent writes.
+- Manual sync: Team members need to send .tfstate file around — error-prone.
+
+**✅ Recommended Approach: Use a Remote Backend with Locking**
+To safely collaborate on Terraform code, use a remote backend that supports:
+
+- State sharing: All users reference the same remote tfstate.
+- State locking: Prevents multiple apply operations at the same time.
+- Versioning: Roll back to previous states if something breaks.
+
+**🛠 Workflow with Remote State**
+- Developer A runs terraform apply
+- Acquires lock
+- Updates resources and state
+- Releases lock
+- Developer B tries to run apply
+- Sees: Error: state is locked by another user
+- Waits or stops
+
+```
+provider "azurerm" {
+
+ features {}
+
+}
+terraform{
+
+ required_providers {
+
+  azurerm = {
+
+   source = "hashicorp/azurerm"
+
+   version = "~>2.0" //download the latest version in the 2.x series
+
+  }
+
+ }
+}
+```
+***Note: If there are previously installed versions of Tf, we might have to remove all .tf files and reinitilize using `terraform init` ***
+
+If we want to jump to a major upgrade, we'll get an error unless specified otherwise:
+```
+ Error: Failed to query available provider packages
+│ 
+│ Could not retrieve the list of available versions for provider hashicorp/azurerm: locked provider registry.terraform.io/hashicorp/azurerm
+│ 2.99.0 does not match configured version constraint ~> 3.0; must use terraform init -upgrade to allow selection of new versions
+```
+
+Similarly, changing the version of Terraform itself might throw some errors if there's a chance for breaking changes
+```
+│ Error: Unsupported Terraform Core version
+│ 
+│   on main.tf line 19, in terraform:
+│   19:  required_version = "<=1.0"
+│ 
+│ This configuration does not support Terraform version 1.11.2. To proceed, either choose another supported Terraform version or update this
+│ version constraint. Version constraints are normally set for good reason, so updating the constraint may lead to other errors or unexpected
+│ behavior.
+```
+
+## Code to create a virtual network in an existing resource group
+```
+provider "azurerm" {
+
+ features {}
+
+}
+terraform{
+
+ required_providers {
+
+  azurerm = {
+
+   source = "hashicorp/azurerm"
+
+   version = "~>3.0"
+
+  }
+
+ }
+}
+
+data "azurerm_resource_group" "example"{
+    name="parakram_rg"
+}
+
+output "id" {
+    value = data.azurerm_resource_group.example.id
+}
+
+output "name" {
+    value = resource.azurerm_virtual_network.example.name
+}
+
+resource "azurerm_virtual_network" "example"{
+ name   ="example_nw"
+ location       = data.azurerm_resource_group.example.location
+ resource_group_name    = data.azurerm_resource_group.example.name
+ address_space  =["10.0.0.0/16"]
+ 
+}
+```
