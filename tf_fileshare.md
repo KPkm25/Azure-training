@@ -21,7 +21,7 @@ Using Azure Storage Accounts for File Shares — Theoretical Guide
 - Linux VM:	Hosts the mount point for the Azure File Share.
 
 ### 3. Design Flow (Architecture)
-
+```
 +-------------------------+
 |     Resource Group      |
 +-------------------------+
@@ -42,7 +42,7 @@ Using Azure Storage Accounts for File Shares — Theoretical Guide
                              +--> Linux VM
                                     |
                                     +--> Mounts File Share via SMB
-
+```
 ### 4. Terraform's Role
 Terraform serves as the Infrastructure as Code (IaC) tool that:
 
