@@ -1,5 +1,57 @@
 Creating multiple VMs in different regions with different providers
 ---
+Imp point:
+🔧 Providers Setup
+Two Azure providers declared:
+
+Default: used for East US region.
+
+alias = "Secondary": used for Central India region.
+
+Required for deploying resources in multiple Azure regions under separate logical providers or subscriptions.
+
+📦 Resource Groups
+parakram-rg-tf1: in East US (default provider).
+
+parakram-rg-tf2: in Central India (secondary provider).
+
+🌐 Networking
+Virtual Networks (VNets):
+
+parakram-vnet-tf1: for East US, address space 10.0.0.0/16.
+
+parakram-vnet-tf2: for Central India, address space 10.1.0.0/16.
+
+Subnets:
+
+backend-subnet1: 10.0.1.0/24.
+
+backend-subnet2: 10.1.1.0/24.
+
+🌐 NICs (Network Interface Cards)
+Each VM is connected to its own subnet via a separate NIC.
+
+Dynamic private IP assignment.
+
+Tagged with "environment = backend".
+
+💻 Virtual Machines (Ubuntu Linux)
+Both VMs use Ubuntu 22.04 LTS from Canonical.
+
+Size: Standard_B1s, with 30GB OS disk.
+
+SSH access configured using ~/.ssh/id_rsa.pub.
+
+VM1 (example1) is deployed first.
+
+VM2 (example2) has a depends_on block ensuring it is created after VM1.
+
+📦 Terraform Settings
+Using azurerm provider version 2.40.0.
+
+terraform block ensures provider plugin is correctly sourced and versioned.
+
+---
 provider "azurerm" {
 
  features {}
