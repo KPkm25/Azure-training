@@ -293,7 +293,7 @@ sudo mkdir /etc/smbcredentials
 fi
 if [ ! -f "/etc/smbcredentials/parakramstorage.cred" ]; then
     sudo bash -c 'echo "username=parakramstorage" >> /etc/smbcredentials/parakramstorage.cred'
-    sudo bash -c 'echo "password=39b6KSHkouT396OLelWSqVYO2cDgF+1FAUQKaTmI7kc2L7Vyv8U46U2VM4fEI78gR6+4epswWO32+AStLdD0dQ==" >> /etc/smbcredentials/parakramstorage.cred'
+    sudo bash -c 'echo "password=*************==" >> /etc/smbcredentials/parakramstorage.cred'
 fi
 sudo chmod 600 /etc/smbcredentials/parakramstorage.cred
 
