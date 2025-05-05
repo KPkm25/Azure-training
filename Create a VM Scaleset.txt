@@ -1,0 +1,23 @@
+Create a VM Scaleset
+---
+1. Create a VM and install a single paged application(SPA) on it like Apache.
+2. When the VM is running, capture an image with all the required configuration and delete the VM.
+3. Go to VM Scale Set(VMSS) and select the resource group, location and the previously saved image.
+4. A VNET was created automatically with the VM, select it in the networking tab.
+5. Edit the VNET to create 2 subnets, one public and one private.
+6. Add the private subnet to the network interface.
+7. Create a Load Balancer and retain the default configuration for load balancing,i.e,
+- **Frontend IP**: Public IP
+- **Frontend port**: 80
+- **Backend pool**: Your VMSS pool
+- **Backend port**: 80
+- **Probe**: Linked to your health probe
+8. Now, the scale set has been created and a public IP address is available, which is the public IP for the load balancer and the project can be accessed on this IP. 
+
+Important stuff:
+- **Frontend IP**: Public IP
+- **Frontend port**: 80
+- **Backend pool**: Your VMSS pool
+- **Backend port**: 80
+- **Probe**: Linked to your health probe
+frontend traffic (e.g., port 80) to the backend pool, nat rules
