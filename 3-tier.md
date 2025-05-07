@@ -1,5 +1,6 @@
 ## Building and deploying a Spring Boot application
 
+```
 provider "azurerm" {
   features {}
 }
@@ -123,3 +124,4 @@ terraform {
     }
   }
 }
+```
