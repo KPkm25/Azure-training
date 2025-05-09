@@ -1,5 +1,4 @@
-## Default choice for a generic VM
-
+## Code to install specific configurations in the VM using shell script and custom_data parameter
 ```
 provider "azurerm" {
 
@@ -127,6 +126,9 @@ resource "azurerm_linux_virtual_machine" "example" {
 
  admin_username = "parakram"
 
+ custom_data = base64encode(file("install_jenkins.sh"))
+
+
  # OS disk block
 
  os_disk {
@@ -137,7 +139,7 @@ resource "azurerm_linux_virtual_machine" "example" {
 
   storage_account_type = "Standard_LRS"
 
-  disk_size_gb = 30
+  disk_size_gb = 35
 
  }
 
@@ -155,9 +157,9 @@ resource "azurerm_linux_virtual_machine" "example" {
 
   publisher = "Canonical"
 
-  offer = "0001-com-ubuntu-server-jammy"
+  offer = "0001-com-ubuntu-server-focal"
 
-  sku = "22_04-lts"
+  sku = "20_04-lts"
 
   version = "latest"
 
@@ -167,7 +169,7 @@ resource "azurerm_linux_virtual_machine" "example" {
 
  tags = {
 
-  environment = "backend"
+  environment = "VM"
 
  }
 
@@ -188,5 +190,60 @@ terraform{
  }
 
 }
+```
+## install_jenkins.sh
+```
+#!/bin/bash
 
+echo "Update package list"
+sudo apt-get update -y
+
+echo "Install Java JDK 8"
+sudo apt-get remove -y openjdk* 
+sudo apt-get install -y openjdk-8-jdk
+
+echo "Install Maven"
+sudo apt-get install -y maven
+
+echo "Install Git"
+sudo apt-get install -y git
+
+echo "Install Docker"
+sudo apt-get install -y \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+    sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/etc/apt/keyrings/docker.gpg] \
+  https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+echo "Install Jenkins"
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt-get update -y
+sudo apt-get install -y jenkins
+
+echo "Enable and start services"
+sudo usermod -aG docker jenkins
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
 ```

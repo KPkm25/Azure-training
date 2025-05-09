@@ -715,5 +715,17 @@ resource "azurerm_linux_virtual_machine" "example2" {
 }
 ```
 
+---
 
+## Security in CLoud
+
+1. Defence in depth
+2. Layered Security
+** 4C's in security
+
+-> Conditional Access Policies (For authentication and authorization)
+
+-> Statefull/stateless and persistence. Externalize the data.
+-> 3 Axis of scalabilities
+-> API Gateways
 
