@@ -729,3 +729,17 @@ resource "azurerm_linux_virtual_machine" "example2" {
 -> 3 Axis of scalabilities
 -> API Gateways
 
+```
+user16 [ ~ ]$ kubectl get deployments --all-namespaces=true
+NAMESPACE     NAME                                  READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system   ama-metrics                           2/2     2            2           28m
+kube-system   ama-metrics-ksm                       1/1     1            1           28m
+kube-system   ama-metrics-operator-targets          1/1     1            1           28m
+kube-system   azure-wi-webhook-controller-manager   2/2     2            2           32m
+kube-system   coredns                               2/2     2            2           33m
+kube-system   coredns-autoscaler                    1/1     1            1           33m
+kube-system   eraser-controller-manager             1/1     1            1           32m
+kube-system   konnectivity-agent                    2/2     2            2           33m
+kube-system   konnectivity-agent-autoscaler         1/1     1            1           33m
+kube-system   metrics-server                        2/2     2            2           33m
+```
