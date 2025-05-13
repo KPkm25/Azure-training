@@ -743,3 +743,201 @@ kube-system   konnectivity-agent                    2/2     2            2      
 kube-system   konnectivity-agent-autoscaler         1/1     1            1           33m
 kube-system   metrics-server                        2/2     2            2           33m
 ```
+---
+
+## Symmetric and Asymmetric keys
+| Feature            | Symmetric Key          | Asymmetric Key                     |
+| ------------------ | ---------------------- | ---------------------------------- |
+| Keys Used          | One (shared)           | Two (public & private)             |
+| Speed              | Faster                 | Slower                             |
+| Security           | Depends on key secrecy | Secure even if public key is known |
+| Use Case           | Bulk data encryption   | Secure communication, key exchange |
+| Example Algorithms | AES, DES, RC4          | RSA, ECC, DSA                      |
+
+## What is a Certificate Authority (CA)?
+A Certificate Authority (CA) is a trusted organization or entity that issues digital certificates used in public key infrastructure (PKI) to verify identities and enable secure communication over networks like the internet.
+
+**📜 What Does a CA Do?**
+-> Verifies Identity
+Confirms the legitimacy of an entity (person, organization, website) requesting a certificate.
+
+-> Issues Digital Certificates
+Binds a public key to the verified entity's identity using a digital signature.
+
+-> Enables Trust
+Others (like browsers or clients) trust a website or server because they trust the CA that issued its certificate.
+
+**🔐 How It Works (Simplified HTTPS Example):**
+-> A website generates a key pair (public and private keys).
+
+-> It sends its public key + identity info to a CA as a certificate signing request (CSR).
+
+The CA:
+
+-> Verifies the identity of the website.
+
+-> Signs the public key + info using its own private key.
+
+-> Issues a Digital Certificate (e.g., an SSL/TLS certificate).
+
+When a browser connects to the website:
+
+-> It checks the certificate.
+
+-> If it’s signed by a trusted CA, the browser trusts the website.
+
+**📦 Components of a Digital Certificate:**
+-> Subject: Who the certificate is issued to.
+
+-> Issuer: The CA who issued the certificate.
+
+-> Public Key: Of the subject (e.g., the website).
+
+-> Signature: Digital signature of the CA.
+
+-> Validity Period: Start and end date.
+
+-> Serial Number: Unique ID of the certificate.
+
+
+## TCP Three-Way Handshake vs SSL/TLS Handshake
+
+The **TCP three-way handshake** and the **SSL/TLS handshake** are distinct processes, but they work together to establish a secure connection. 
+
+- First, the **TCP handshake** establishes a basic communication link.
+- Then, the **SSL/TLS handshake** secures that link using encryption and authentication.
+
+---
+
+## 🔁 TCP Three-Way Handshake
+
+1. **SYN (Synchronize)**  
+   The client sends a SYN packet to the server, indicating its desire to initiate a connection.
+
+2. **SYN-ACK (Synchronize-Acknowledge)**  
+   The server responds with a SYN-ACK packet, acknowledging the client's SYN and sending its own SYN to synchronize the connection.
+
+3. **ACK (Acknowledge)**  
+   The client sends an ACK packet to the server, acknowledging the server's SYN-ACK and establishing the TCP connection.
+
+---
+
+## 🔐 SSL/TLS Handshake
+
+1. **Client Hello**  
+   The client initiates the handshake by sending a `ClientHello` message, including the supported TLS versions, ciphersuites, and compression methods.
+
+2. **Server Hello**  
+   The server responds with a `ServerHello` message, selecting the TLS version, ciphersuite, and compression method to be used.
+
+3. **Certificate**  
+   The server sends its SSL certificate to the client for verification and authentication.
+
+4. **Server Key Exchange**  
+   The server exchanges its public key or other necessary information for key exchange with the client.
+
+5. **Certificate Request** *(optional)*  
+   The server may request a certificate from the client for client authentication.
+
+6. **Client Key Exchange**  
+   The client sends a `ClientKeyExchange` message, which may include the client's certificate and the pre-master secret for key derivation.
+
+7. **Server Certificate Verification**  
+   The client authenticates the server's certificate, verifying its validity and digital signature.
+
+8. **Change Cipher Spec**  
+   Both the client and server send `ChangeCipherSpec` messages to indicate they are switching to the negotiated encryption algorithms.
+
+9. **Finished**  
+   The client and server send `Finished` messages to confirm the handshake is complete and that they are ready to exchange encrypted data.
+
+
+`In software development, design patterns are reusable solutions to commonly occurring problems in software design. They are like blueprints or templates that can be customized to solve specific design issues in code. Instead of being finished code, design patterns provide a general approach for solving a recurring problem.`
+
+## Sidecar Containers
+Sidecar containers are the secondary containers that run along with the main application container within the same Pod. These containers are used to enhance or to extend the functionality of the primary app container by providing additional services, or functionality such as logging, monitoring, security, or data synchronization, without directly altering the primary application code.
+
+## 🚀 What is Istio?
+Istio is an open-source service mesh that helps you manage, secure, observe, and control microservices in a distributed system — especially those running on Kubernetes.
+
+It provides tools to control traffic, enforce security policies, and monitor service behavior without changing your application code.
+
+## 🧱 Key Concepts
+**🔹 Service Mesh**
+A service mesh is a dedicated infrastructure layer for handling communication between services. It abstracts service-to-service communication and adds features like:
+
+-> Load balancing
+
+-> Authentication & authorization
+
+-> Observability (metrics, logs, tracing)
+
+-> Traffic control and resilience (timeouts, retries, circuit breakers)
+
+**🛠️ How Istio Works**
+Istio has two main components:
+
+1. Data Plane (Envoy proxies)
+Every service pod gets an Envoy sidecar proxy injected.
+
+These proxies intercept all network traffic between services.
+
+They enforce policies and collect telemetry (metrics, logs, traces).
+
+2. Control Plane (Istiod)
+Manages the configuration of the proxies.
+
+Distributes traffic rules, security policies, and telemetry settings to Envoy proxies.
+
+**🔐 Istio Features**
+Feature	Description
+🔀 Traffic Management	Fine-grained routing (e.g., canary deployments, A/B testing), retries, failovers
+🔒 Security	Mutual TLS (mTLS), authentication, authorization, and identity verification
+📊 Observability	Integration with Prometheus, Grafana, Jaeger, Kiali — metrics, logs, tracing
+📜 Policy Enforcement	Rate limiting, quotas, access control
+🔄 Service Discovery	Works with Kubernetes service registry automatically
+
+**🧪 Example Use Case**
+You're running multiple versions of a service (v1, v2) and want to:
+
+-> Send 90% of traffic to v1, 10% to v2
+
+-> Automatically retry failed requests
+
+-> Secure traffic with TLS between services
+
+-> Monitor performance and errors in Grafana
+
+👉 Istio can do all of this without modifying your application code — just configuration.
+
+---
+
+## 4 Things in Kubernetes Networking
+1) How can two container talk to each other on the same pod - through localhost
+
+2) How can continers in two different pods talk to each other in the same node - custom bridge acts like a switch , handshake signal to all contains and container and through MAC adress
+
+3) How does two containers in different nodes talk to each other - custom bridge(CBR) it has default route which takes it to network plugin (calico , weeb), takes message from one machine to desired machine.CBR on other node forwards it to the desired container then.
+
+4) How can we talk to a service and service can do the load balancing => kubeproxy has a list of all the endpoints(IP of the pods) associated with a service. the kubelet is constantly sending the information about the available endpoints to the api-server which saves it in the etcd, which is then accessed by the kubeproxy.
+
+```
+https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/
+```
+
+## K8s RBAC
+```
+https://github.com/vilasvarghese/docker-k8s/blob/master/yaml/rbac/instructions.txt
+```
+
+## Terraform provisioners
+```
+https://spacelift.io/blog/terraform-provisioners
+
+```
+
+## Storage volumes in K8s
+-> PV and PVC(what they are, why are they one-to-one)
+-> PVC is namespace based and PV is not
+-> PV is tightly bound to storage
+-> Static and dynamic provisioning
