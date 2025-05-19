@@ -127,6 +127,8 @@ resource "azurerm_linux_virtual_machine" "example" {
 
  admin_username = "parakram"
 
+  custom_data = base64encode(file("startup_installation.sh"))
+
  # OS disk block
 
  os_disk {
@@ -188,5 +190,32 @@ terraform{
  }
 
 }
+
+```
+
+## startup_installation.sh
+```
+#!/bin/bash
+
+# Update package lists
+echo "Updating packages..."
+sudo apt update -y
+
+# Install npm
+echo "Installing npm..."
+sudo apt install -y npm
+
+# Install OpenJDK 11
+echo "Installing OpenJDK 11..."
+sudo apt install -y openjdk-11-jdk-headless
+
+# Install Maven
+echo "Installing Maven..."
+sudo apt install -y maven
+
+# Install Docker using the official script
+echo "Installing Docker..."
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
 
 ```

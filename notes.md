@@ -936,8 +936,25 @@ https://spacelift.io/blog/terraform-provisioners
 
 ```
 
+## Quickstart: Deploy an Azure Kubernetes Service (AKS) cluster using Terraform
+```
+https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform?pivots=development-environment-azure-cli
+```
+
 ## Storage volumes in K8s
 -> PV and PVC(what they are, why are they one-to-one)
 -> PVC is namespace based and PV is not
 -> PV is tightly bound to storage
 -> Static and dynamic provisioning
+
+---
+
+
+ASG's only work inside a VNET, i.e, only internal traffic will work using private IP. If we use Public IP, then the request comes from outside the VNET and doesn't have an ASG associated with it.
+
+-> NSG rules are Stateful, if i'm making a request to port 80 then i should also be able to respond via port 80, though there are some exceptions.
+
+```
+https://learn.microsoft.com/en-us/azure/firewall/tutorial-firewall-deploy-portal
+
+```
