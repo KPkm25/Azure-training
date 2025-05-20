@@ -958,3 +958,7 @@ ASG's only work inside a VNET, i.e, only internal traffic will work using privat
 https://learn.microsoft.com/en-us/azure/firewall/tutorial-firewall-deploy-portal
 
 ```
+
+```
+https://blog.gitguardian.com/how-to-handle-secrets-with-azure-key-vault/
+```
