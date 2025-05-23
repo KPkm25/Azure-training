@@ -962,3 +962,7 @@ https://learn.microsoft.com/en-us/azure/firewall/tutorial-firewall-deploy-portal
 ```
 https://blog.gitguardian.com/how-to-handle-secrets-with-azure-key-vault/
 ```
+
+List Existing SPNs-
+
+`az ad sp list --all --query "[].{Name:displayName, AppId:appId}" -o table`
