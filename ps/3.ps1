@@ -1,0 +1,1 @@
+Get-ChildItem -Path "C:/Users/289220/Desktop/Azure_Training" -Recurse 
